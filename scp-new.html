@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCP 新規登録 - QOL省</title>
+  <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#eef2f6;color:#1b1b1b;}
+    header{background:linear-gradient(90deg,#0b3a73,#1a5aa5);color:#fff;padding:10px 12px;font-weight:900;}
+    .wrap{padding:12px;}
+    .card{background:#fff;border:1px solid #d8dee6;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06);overflow:hidden;}
+    .card h2{margin:0;font-size:14px;padding:10px 12px;border-bottom:1px solid #e6ebf1;background:#f8fafc;color:#223244;}
+    .body{padding:12px;}
+    .muted{color:#6a7786;font-size:12px;}
+    .grid{display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:center;}
+    input,textarea{
+      width:100%;box-sizing:border-box;padding:10px;border-radius:8px;border:1px solid #d8dee6;background:#fff;
+      font-size:14px;
+    }
+    textarea{min-height:90px;resize:vertical;}
+    .btn{background:#1a5aa5;color:#fff;border:0;border-radius:8px;padding:10px 12px;font-weight:900;cursor:pointer;}
+    .btn:hover{filter:brightness(1.05);}
+    .btn2{background:#f2f5f8;color:#223244;border:1px solid #e1e7ee;border-radius:8px;padding:10px 12px;font-weight:900;cursor:pointer;}
+    .btn2:hover{filter:brightness(0.98);}
+    .preview{margin-top:10px;border:1px solid #e6ebf1;background:#fbfdff;border-radius:10px;padding:10px;display:none;}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;}
+  </style>
+</head>
+<body>
+  <header>QOL省 / SCPデータベース：新規登録（仮）</header>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>登録フォーム（※保存されません）</h2>
+      <div class="body">
+        <div class="muted" style="margin-bottom:10px;">
+          ※DBには反映されません。反映されるのは気分と雰囲気です。
+        </div>
+
+        <div class="grid">
+          <div class="muted" style="font-weight:900;">ID</div>
+          <input id="newId" placeholder="例）SCP-008-NK" />
+
+          <div class="muted" style="font-weight:900;">通称</div>
+          <input id="newName" placeholder="例）こたつの下からどんぐり" />
+
+          <div class="muted" style="font-weight:900;">区分</div>
+          <input id="newType" placeholder="例）現象 / 存在 / 事案 / 事故" />
+
+          <div class="muted" style="font-weight:900;">状態</div>
+          <input id="newStatus" placeholder="例）観測：継続 / 担当：未定" />
+
+          <div class="muted" style="font-weight:900;">概要</div>
+          <textarea id="newDesc" placeholder="ゆるく書いてOK。説明しすぎると対象が逃げます。"></textarea>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+          <button class="btn" type="button" onclick="previewAdd()">仮登録（プレビュー）</button>
+          <button class="btn2" type="button" onclick="clearForm()">フォーム消去</button>
+          <button class="btn2" type="button" onclick="window.close()">閉じる</button>
+        </div>
+
+        <div id="previewBox" class="preview"></div>
+
+        <div class="muted" style="margin-top:10px;">
+          ヒント：SCP-001-NK（ペンギン）みたいに、最初は“仮”でOK。
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+function esc(s){
+  return (s||"").replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+function previewAdd(){
+  const id = document.getElementById("newId").value.trim() || "SCP-???-NK";
+  const name = document.getElementById("newName").value.trim() || "（未記入）";
+  const type = document.getElementById("newType").value.trim() || "（未分類）";
+  const status = document.getElementById("newStatus").value.trim() || "（未設定）";
+  const desc = document.getElementById("newDesc").value.trim() || "（概要なし）";
+
+  const box = document.getElementById("previewBox");
+  box.style.display = "block";
+  box.innerHTML =
+    "<div style='font-weight:900;color:#223244;margin-bottom:6px;'>仮登録プレビュー</div>" +
+    "<div><span style='font-weight:900'>ID：</span><span class='mono'>" + esc(id) + "</span></div>" +
+    "<div><span style='font-weight:900'>通称：</span>" + esc(name) + "</div>" +
+    "<div><span style='font-weight:900'>区分：</span>" + esc(type) + "</div>" +
+    "<div><span style='font-weight:900'>状態：</span>" + esc(status) + "</div>" +
+    "<div style='margin-top:6px;'><span style='font-weight:900'>概要：</span><br>" + esc(desc).replace(/\n/g,"<br>") + "</div>" +
+    "<div class='muted' style='margin-top:8px;'>※保存されません（でも“提出した感”は発生します）。</div>";
+}
+
+function clearForm(){
+  document.getElementById("newId").value = "";
+  document.getElementById("newName").value = "";
+  document.getElementById("newType").value = "";
+  document.getElementById("newStatus").value = "";
+  document.getElementById("newDesc").value = "";
+  const box = document.getElementById("previewBox");
+  box.style.display = "none";
+  box.innerHTML = "";
+}
+</script>
+</body>
+</html>

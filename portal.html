@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QOL省 内部ポータル</title>
+  <style>
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+      background:#eef2f6;
+      color:#1b1b1b;
+    }
+    header{
+      background:linear-gradient(90deg,#0b3a73,#1a5aa5);
+      color:#fff;
+      padding:14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .brand{
+      font-weight:800;
+      letter-spacing:.04em;
+    }
+    .userbox{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+      font-weight:600;
+    }
+    .tag{
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.22);
+      padding:6px 10px;
+      border-radius:999px;
+    }
+    .btn{
+      background:#ffffff;
+      color:#0b3a73;
+      border:0;
+      border-radius:8px;
+      padding:10px 12px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 2fr 1fr;
+      gap:14px;
+    }
+
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background:#fff;
+      border:1px solid #d8dee6;
+      border-radius:10px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.06);
+      overflow:hidden;
+    }
+    .card h2{
+      margin:0;
+      font-size:16px;
+      padding:12px 14px;
+      border-bottom:1px solid #e6ebf1;
+      background:#f8fafc;
+      color:#223244;
+    }
+    .card .body{
+      padding:14px;
+    }
+
+    .kpi{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 560px){
+      .kpi{ grid-template-columns: 1fr; }
+    }
+    .kpiItem{
+      border:1px solid #e1e7ee;
+      border-radius:10px;
+      padding:12px 12px;
+      background:#fbfcfe;
+    }
+    .kpiItem .label{ color:#6a7786; font-size:12px; font-weight:700; }
+    .kpiItem .value{ margin-top:6px; font-size:18px; font-weight:900; }
+    .kpiItem .sub{ margin-top:6px; color:#6a7786; font-size:12px; }
+
+    ul{ margin:0; padding-left:18px; }
+    li{ margin:8px 0; }
+
+    .notice{
+      border-left:4px solid #1a5aa5;
+      padding-left:10px;
+    }
+    .muted{ color:#6a7786; font-size:12px; }
+
+    .mini{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      padding:10px 0;
+      border-bottom:1px dashed #e6ebf1;
+    }
+    .mini:last-child{ border-bottom:0; }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+    footer{
+      margin-top:14px;
+      color:#6a7786;
+      font-size:12px;
+      text-align:center;
+    }
+a{ color:#1a5aa5; text-decoration:none; font-weight:800; }
+a:hover{ text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">QOL省 内部ポータル</div>
+    <div class="userbox">
+      <span class="tag">ログイン：<span id="staffId" class="mono">---</span></span>
+      <span class="tag">役職：外部うろうろ担当（非公式）👀</span>
+      <button class="btn" id="logoutBtn" type="button">ログアウト</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="grid">
+      <!-- 左（メイン） -->
+      <div class="card">
+        <h2>ダッシュボード</h2>
+        <div class="body">
+          <div class="kpi">
+            <div class="kpiItem">
+              <div class="label">本日のぬく指数</div>
+              <div class="value">ぬく（安定）</div>
+              <div class="sub">※説明は不要です</div>
+            </div>
+            <div class="kpiItem">
+              <div class="label">ペンギン</div>
+              <div class="value">在席</div>
+              <div class="sub">たまに覗いてくる</div>
+            </div>
+            <div class="kpiItem">
+              <div class="label">どんぐり件数</div>
+              <div class="value">3</div>
+              <div class="sub">靴・こたつ・謎の場所</div>
+            </div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="notice">
+            <div style="font-weight:900;">お知らせ（最新）</div>
+            <ul>
+              <li>会議室Aで「すぴー…」が増えております（原因：不明）</li>
+              <li>伝書鳩の未読が溜まっています（担当：未定）</li>
+              <li>帯電事故報告書は“お茶で鎮静”として処理されました</li>
+            </ul>
+            <div class="muted">※緊急性が高い場合でも、深呼吸してから再度ご確認ください。</div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div style="font-weight:900; margin-bottom:6px;">省内通達（抜粋）</div>
+
+<div class="mini">
+  <div><a href="notices.html">通達 第ぬく001号：力が抜ける現象の観測方針</a></div>
+  <div class="muted">更新：本日</div>
+</div>
+<div class="mini">
+  <div><a href="notices.html">クレーム対応マニュアル：それは仕様です</a></div>
+  <div class="muted">更新：たぶん最近</div>
+</div>
+<div class="mini">
+  <div><a href="notices.html">ぬくドリンクの変わり種：提供可（ただし説明禁止）</a></div>
+  <div class="muted">更新：気分</div>
+</div>
+
+<div style="height:12px"></div>
+
+<div style="font-weight:900; margin-bottom:6px;">SCP関連</div>
+<div class="mini">
+  <div><a href="scp-db.html">SCPデータベース（一覧へ）</a></div>
+  <div class="muted">更新：継続</div>
+</div>
+<div class="mini">
+  <div><a href="scp-000-nk.html">SCP-000-NK（詳細へ）</a></div>
+  <div class="muted">観測：継続</div>
+</div>
+        </div>
+      </div>
+
+      <!-- 右（サイド） -->
+      <div class="card">
+        <h2>クイックログ</h2>
+        <div class="body">
+          <div class="mini">
+            <div class="mono">SCP-000-NK</div>
+            <div class="muted">観測：継続</div>
+          </div>
+          <div class="mini">
+            <div>寝息検知</div>
+            <div class="muted">+2</div>
+          </div>
+          <div class="mini">
+            <div>尻尾目撃</div>
+            <div class="muted">1</div>
+          </div>
+          <div class="mini">
+            <div>ペンギンの頭に落下物</div>
+            <div class="muted">未確認</div>
+          </div>
+          <div style="height:10px"></div>
+
+          <div style="font-weight:900; margin-bottom:6px;">メモ（個人）</div>
+          <ul>
+            <li>“押すな”のスイッチは押してよい</li>
+            <li>ヤギは食べたら消える（名前なし）</li>
+            <li>ぬくりばは説明しない方が伝わる</li>
+          </ul>
+
+          <div style="height:10px"></div>
+          <div class="muted">※これはイントラ“風”です。内容はふわっと更新されます。</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>QOL省 内部ポータル / Authorized for “ぬく” only</footer>
+  </div>
+
+  <script>
+    const staffId = sessionStorage.getItem("nuk_ministry_staff_id");
+    if(!staffId){
+      // ログインしてない風なら戻す（世界観のため）
+      location.href = "index.html";
+    }else{
+      document.getElementById("staffId").textContent = staffId;
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem("nuk_ministry_staff_id");
+      location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

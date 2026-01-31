@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCP-001-NK - そこにいるペンギン</title>
+  <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#eef2f6;color:#1b1b1b;}
+    header{background:linear-gradient(90deg,#0b3a73,#1a5aa5);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+    .brand{font-weight:900;letter-spacing:.04em;}
+    .nav a{color:#fff;text-decoration:none;font-weight:800;margin-right:12px;opacity:.95}
+    .nav a:hover{opacity:1;text-decoration:underline;}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px;}
+    .card{background:#fff;border:1px solid #d8dee6;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06);overflow:hidden;margin-bottom:14px;}
+    .card h2{margin:0;font-size:16px;padding:12px 14px;border-bottom:1px solid #e6ebf1;background:#f8fafc;color:#223244;}
+    .body{padding:14px;}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    @media (max-width: 900px){.grid{grid-template-columns:1fr;}}
+    .pill{display:inline-block;background:#f2f5f8;border:1px solid #e1e7ee;padding:4px 10px;border-radius:999px;font-size:12px;}
+    .muted{color:#6a7786;font-size:12px;}
+    .kv{display:grid;grid-template-columns:140px 1fr;gap:10px;margin:8px 0;}
+    .kv b{color:#223244;}
+    .log{border-left:4px solid #1a5aa5;padding-left:12px;margin:10px 0;}
+    textarea{width:100%;box-sizing:border-box;border:1px solid #c8d0da;border-radius:10px;padding:12px;font-size:14px;min-height:120px;outline:none;}
+    textarea:focus{border-color:#1a5aa5;box-shadow:0 0 0 3px rgba(26,90,165,.18);}
+    button{background:#1a5aa5;color:#fff;border:0;border-radius:10px;padding:10px 12px;font-weight:900;cursor:pointer;}
+    button:hover{filter:brightness(1.05);}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">QOL省 内部ポータル</div>
+  <div class="nav">
+    <a href="portal.html">ダッシュボード</a>
+    <a href="scp-db.html">SCPデータベース</a>
+    <a href="notices.html">省内通達</a>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <h2>SCP-001-NK / そこにいるペンギン <span class="pill">存在</span></h2>
+    <div class="body">
+      <div class="grid">
+        <div>
+          <div class="kv"><b>ID</b><div>SCP-001-NK</div></div>
+          <div class="kv"><b>通称</b><div>そこにいるペンギン（確定）</div></div>
+          <div class="kv"><b>状態</b><div>在席：高（たまに覗く）</div></div>
+          <div class="kv"><b>危険度</b><div>0（ぬくい）</div></div>
+          <div class="kv"><b>備考</b><div class="muted">抱きしめてもよい。暑い場合は各自で調整すること。</div></div>
+        </div>
+
+        <div>
+          <div class="log">
+            <b>概要</b><br>
+            施設内に「いつのまにか居る」ことがある。  
+            職員の作業を覗いているが、介入はしない。  
+            ときどき頭部へ落下物が発生する（原因：未確定）。
+          </div>
+          <div class="muted">※観測者が「かわいい」と感じるほど記録が雑になる傾向あり。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>目撃ログ（抜粋）</h2>
+    <div class="body">
+      <ul>
+        <li>2026-01-31 20:20　入口付近で在席。視線だけ送ってきた。</li>
+        <li>不定期　こたつ周辺で静止。たまに首をかしげる。</li>
+        <li>不定期　頭にどんぐりが落ちる（※落下元不明）。</li>
+      </ul>
+      <div class="muted">※ログは雰囲気で更新されます。</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>観測メモ（個人）</h2>
+    <div class="body">
+      <textarea id="memo" placeholder="例）( ⊃🐧⊂ )ｷﾞｭ した / 目が合った / 何も起きなかった"></textarea>
+      <div style="display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap;">
+        <button type="button" onclick="saveMemo()">保存（ローカル）</button>
+        <span class="muted">※この保存はあなたのPC内だけです（イントラ風）</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const KEY = "qol_scp001_memo";
+  const memo = document.getElementById("memo");
+  memo.value = localStorage.getItem(KEY) || "";
+
+  function saveMemo(){
+    localStorage.setItem(KEY, memo.value);
+    alert("保存しました（たぶん）");
+  }
+</script>
+</body>
+</html>

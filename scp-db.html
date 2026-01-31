@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SCPデータベース - QOL省</title>
+  <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#eef2f6;color:#1b1b1b;}
+    header{background:linear-gradient(90deg,#0b3a73,#1a5aa5);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+    .brand{font-weight:900;letter-spacing:.04em;}
+    .nav a{color:#fff;text-decoration:none;font-weight:800;margin-right:12px;opacity:.95}
+    .nav a:hover{opacity:1;text-decoration:underline;}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px;}
+    .card{background:#fff;border:1px solid #d8dee6;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06);overflow:hidden;}
+    .card h2{margin:0;font-size:16px;padding:12px 14px;border-bottom:1px solid #e6ebf1;background:#f8fafc;color:#223244;}
+    .body{padding:14px;}
+    input{
+      width:100%;box-sizing:border-box;padding:12px 12px;border:1px solid #c8d0da;border-radius:8px;font-size:16px;outline:none;
+      margin-bottom:12px;
+    }
+    input:focus{border-color:#1a5aa5;box-shadow:0 0 0 3px rgba(26,90,165,.18);}
+    table{width:100%;border-collapse:collapse;}
+    th,td{padding:10px;border-bottom:1px solid #e6ebf1;text-align:left;vertical-align:top;}
+    th{color:#6a7786;font-size:12px;}
+    a{color:#1a5aa5;text-decoration:none;font-weight:900;}
+    a:hover{text-decoration:underline;}
+    .pill{display:inline-block;background:#f2f5f8;border:1px solid #e1e7ee;padding:4px 10px;border-radius:999px;font-size:12px;}
+    .muted{color:#6a7786;font-size:12px;}
+.btn{
+  background:#1a5aa5;
+  color:#fff;
+  border:0;
+  border-radius:10px;
+  padding:10px 12px;
+  font-weight:900;
+  cursor:pointer;
+  margin: 6px 0 12px;
+}
+.btn:hover{filter:brightness(1.05);}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">QOL省 内部ポータル</div>
+  <div class="nav">
+    <a href="portal.html">ダッシュボード</a>
+    <a href="notices.html">省内通達</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h2>SCPデータベース（Soft / Calm / Phenomenon）</h2>
+    <div class="body">
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+  <input id="q" placeholder="検索：例）寝息 / どんぐり / 尻尾 / ぬく" style="margin-bottom:0; flex:1; min-width:240px;" />
+  <button class="btn" type="button" onclick="openNew()">新規登録（別窓）</button>
+</div>
+
+
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th style="width:140px;">ID</th>
+            <th>通称</th>
+            <th style="width:140px;">区分</th>
+            <th style="width:140px;">状態</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="scp-000-nk.html">SCP-000-NK</a></td>
+            <td>力が抜ける現象（通称：ぬくりば）</td>
+            <td><span class="pill">現象</span></td>
+            <td class="muted">観測：継続</td>
+          </tr>
+          <tr>
+            <td><a href="scp-001-nk.html">SCP-001-NK</a></td>
+            <td>そこにいるペンギン（仮）</td>
+            <td><span class="pill">存在</span></td>
+            <td class="muted">在席：高</td>
+          </tr>
+          <tr>
+            <td><a href="#" onclick="alert('未作成：寝息検知ログ'); return false;">SCP-002-NK</a></td>
+            <td>すぴー…が聞こえる現象</td>
+            <td><span class="pill">現象</span></td>
+            <td class="muted">増加傾向</td>
+          </tr>
+          <tr>
+            <td><a href="#" onclick="alert('未作成：尻尾だけ見える件'); return false;">SCP-003-NK</a></td>
+            <td>犬っぽい尻尾が覗く現象</td>
+            <td><span class="pill">現象</span></td>
+            <td class="muted">目撃：散発</td>
+          </tr>
+          <tr>
+            <td><a href="#" onclick="alert('未作成：どんぐり増殖'); return false;">SCP-004-NK</a></td>
+            <td>どんぐり混入事案</td>
+            <td><span class="pill">事案</span></td>
+            <td class="muted">原因：不明</td>
+          </tr>
+          <tr>
+            <td><a href="#" onclick="alert('未作成：伝書鳩'); return false;">SCP-005-NK</a></td>
+            <td>伝書鳩の未読が溜まる現象</td>
+            <td><span class="pill">存在</span></td>
+            <td class="muted">担当：未定</td>
+          </tr>
+          <tr>
+            <td><a href="#" onclick="alert('未作成：ヤギ'); return false;">SCP-006-NK</a></td>
+            <td>手紙を食べるヤギ（食べたら消える）</td>
+            <td><span class="pill">存在</span></td>
+            <td class="muted">再現性：中</td>
+          </tr>
+          <tr>
+            <td><a href="#" onclick="alert('未作成：帯電事故'); return false;">SCP-007-NK</a></td>
+            <td>帯電ぴよこ事故（電気タイプ付与）</td>
+            <td><span class="pill">事故</span></td>
+            <td class="muted">処理：お茶</td>
+          </tr>
+        </tbody>
+      </table>
+	
+      <div class="muted" style="margin-top:10px;">
+        ※このデータベースは「怖くない・危険じゃない・ぬくい」ものだけを扱います。
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const q = document.getElementById("q");
+  const tbl = document.getElementById("tbl").getElementsByTagName("tbody")[0];
+
+  q.addEventListener("input", () => {
+    const kw = q.value.trim().toLowerCase();
+    for(const tr of tbl.rows){
+      const text = tr.innerText.toLowerCase();
+      tr.style.display = text.includes(kw) ? "" : "none";
+    }
+  });
+
+function openNew(){
+  window.open(
+    "scp-new.html",
+    "scpNewWin",
+    "width=520,height=680,left=120,top=80,resizable=yes,scrollbars=yes"
+  );
+}
+
+</script>
+</body>
+</html>

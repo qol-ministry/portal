@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>省内通達一覧 - QOL省 内部ポータル</title>
+  <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#eef2f6;color:#1b1b1b;}
+    header{background:linear-gradient(90deg,#0b3a73,#1a5aa5);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+    .brand{font-weight:900;letter-spacing:.04em;}
+    .nav a{color:#fff;text-decoration:none;font-weight:800;margin-right:12px;opacity:.95}
+    .nav a:hover{opacity:1;text-decoration:underline;}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px;}
+    .card{background:#fff;border:1px solid #d8dee6;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06);overflow:hidden;}
+    .card h2{margin:0;font-size:16px;padding:12px 14px;border-bottom:1px solid #e6ebf1;background:#f8fafc;color:#223244;}
+    .body{padding:14px;}
+    .item{padding:12px 0;border-bottom:1px dashed #e6ebf1;}
+    .item:last-child{border-bottom:0;}
+    .title{font-weight:900;}
+    .meta{color:#6a7786;font-size:12px;margin-top:6px;}
+    .tag{display:inline-block;background:#f2f5f8;border:1px solid #e1e7ee;padding:4px 10px;border-radius:999px;font-size:12px;margin-right:8px;}
+    .btn{background:#1a5aa5;color:#fff;border:0;border-radius:8px;padding:10px 12px;font-weight:900;cursor:pointer;}
+    .btn:hover{filter:brightness(1.05);}
+    .muted{color:#6a7786;font-size:12px;}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">QOL省 内部ポータル</div>
+  <div class="nav">
+    <a href="portal.html">ダッシュボード</a>
+    <a href="scp-db.html">SCPデータベース</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h2>省内通達一覧</h2>
+    <div class="body">
+
+      <div class="item">
+        <div class="title">通達 第ぬく001号：力が抜ける現象の観測方針</div>
+        <div class="meta">
+          <span class="tag">重要</span><span class="tag">観測</span> 更新：本日 / 起案：観測班（たぶん）
+        </div>
+        <div style="margin-top:10px" class="muted">
+          要旨：焦らない。説明しない。深呼吸して、記録だけ残す。
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="title">クレーム対応マニュアル（最新版/改訂予定なし）</div>
+        <div class="meta">
+          <span class="tag">対外</span><span class="tag">定型</span> 更新：たぶん最近 / 監修：お茶係
+        </div>
+        <div style="margin-top:10px" class="muted">
+          要旨：「それは仕様です」以外の文言は任意。深追い禁止。
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="title">ぬくドリンクの変わり種：提供可（ただし説明禁止）</div>
+        <div class="meta">
+          <span class="tag">福利厚生</span><span class="tag">飲料</span> 更新：気分 / 備考：においが生魚でも驚かない
+        </div>
+        <div style="margin-top:10px" class="muted">
+          要旨：「ん？」が出たら当たり。説明すると逃げる。
+        </div>
+      </div>
+
+      <div style="height:10px"></div>
+      <button class="btn" type="button" onclick="location.href='portal.html'">ダッシュボードへ戻る</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

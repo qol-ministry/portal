@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>観測ログ一覧 - QOL省</title>
+<style>
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#eef2f6;color:#1b1b1b;}
+  header{background:linear-gradient(90deg,#0b3a73,#1a5aa5);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+  .brand{font-weight:900;letter-spacing:.04em;}
+  .nav a{color:#fff;text-decoration:none;font-weight:800;margin-right:12px;opacity:.95}
+  .nav a:hover{opacity:1;text-decoration:underline;}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px;}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px;}
+  .card{background:#fff;border:1px solid #d8dee6;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.06);overflow:hidden;}
+  .card h2{margin:0;font-size:16px;padding:12px 14px;border-bottom:1px solid #e6ebf1;background:#f8fafc;color:#223244;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .body{padding:14px;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px;}
+  input,select{
+    padding:10px 10px;border:1px solid #c8d0da;border-radius:10px;font-size:14px;outline:none;background:#fff;
+  }
+  input:focus,select:focus{border-color:#1a5aa5;box-shadow:0 0 0 3px rgba(26,90,165,.18);}
+  .btn{
+    padding:10px 12px;border-radius:10px;border:1px solid #c8d0da;background:#fff;font-weight:900;cursor:pointer;
+  }
+  .btn.primary{background:#1a5aa5;color:#fff;border-color:#1a5aa5;}
+  .btn:hover{opacity:.92}
+  table{width:100%;border-collapse:collapse;}
+  th,td{padding:10px;border-bottom:1px solid #e6ebf1;text-align:left;vertical-align:top;}
+  th{color:#6a7786;font-size:12px;}
+  .pill{display:inline-block;background:#f2f5f8;border:1px solid #e1e7ee;padding:4px 10px;border-radius:999px;font-size:12px;}
+  .muted{color:#6a7786;font-size:12px;}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;}
+  details{background:#fbfcfe;border:1px dashed #dde5ee;border-radius:10px;padding:10px;margin-top:6px;}
+  summary{cursor:pointer;font-weight:900;color:#223244;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">QOL省 内部ポータル</div>
+  <div class="nav">
+    <a href="portal.html">ダッシュボード</a>
+    <a href="scp-db.html">SCPデータベース</a>
+    <a href="scp-log-new.html">観測ログ入力</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <h2>
+      <span>観測ログ一覧</span>
+      <span class="muted">※ローカル保存（同じ端末・同じブラウザ内のみ）</span>
+    </h2>
+
+    <div class="body">
+      <div class="row">
+        <input id="kw" style="min-width:220px;flex:1" placeholder="検索：ID / 場所 / メモ / 状態 …" />
+        <select id="filterId">
+          <option value="">ID：すべて</option>
+          <option>SCP-000-NK</option>
+          <option>SCP-001-NK</option>
+          <option>SCP-002-NK</option>
+          <option>SCP-003-NK</option>
+          <option>SCP-004-NK</option>
+          <option>SCP-005-NK</option>
+          <option>SCP-006-NK</option>
+          <option>SCP-007-NK</option>
+          <option>OTHER</option>
+        </select>
+        <button class="btn primary" onclick="location.href='scp-log-new.html'">＋ 新規入力</button>
+        <button class="btn" onclick="exportJson()">書き出し</button>
+        <button class="btn" onclick="clearAll()">全消し</button>
+      </div>
+
+      <div class="muted" style="margin:6px 0 10px;">
+        表示順：新しい順 / 件数：<span id="count">0</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th style="width:140px;">日時</th>
+            <th style="width:130px;">ID</th>
+            <th style="width:160px;">場所</th>
+            <th style="width:120px;">状態</th>
+            <th style="width:110px;">ぬく度</th>
+            <th>メモ</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+
+      <details>
+        <summary>内部注記（ふわっと運用）</summary>
+        <div class="muted" style="margin-top:8px;">
+          ・深刻そうに見えても、深呼吸してから再確認すること。<br>
+          ・「お茶を飲んだ」は正式な処理です。<br>
+          ・危険性のある現象は当省の対象外です（たぶん）。<br>
+        </div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<script>
+  const KEY = "qol_scp_logs_v1";
+
+  function loadLogs(){
+    try { return JSON.parse(localStorage.getItem(KEY) || "[]"); }
+    catch { return []; }
+  }
+
+  function saveLogs(logs){
+    localStorage.setItem(KEY, JSON.stringify(logs));
+  }
+
+  function fmtDate(iso){
+    if(!iso) return "—";
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,"0");
+    const day = String(d.getDate()).padStart(2,"0");
+    const hh = String(d.getHours()).padStart(2,"0");
+    const mm = String(d.getMinutes()).padStart(2,"0");
+    return `${y}/${m}/${day} ${hh}:${mm}`;
+  }
+
+  function render(){
+    const kw = (document.getElementById("kw").value || "").toLowerCase().trim();
+    const fId = document.getElementById("filterId").value;
+
+    let logs = loadLogs();
+    logs.sort((a,b)=> (b.createdAt||"").localeCompare(a.createdAt||""));
+
+    const filtered = logs.filter(x=>{
+      if (fId){
+        if (fId === "OTHER") { if ((x.scpId||"").startsWith("SCP-")) return false; }
+        else if ((x.scpId||"") !== fId) return false;
+      }
+      if (!kw) return true;
+      const blob = `${x.scpId} ${x.place} ${x.state} ${x.nuku} ${x.memo}`.toLowerCase();
+      return blob.includes(kw);
+    });
+
+    document.getElementById("count").textContent = filtered.length;
+
+    const tbody = document.getElementById("rows");
+    tbody.innerHTML = "";
+
+    for(const x of filtered){
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="mono">${fmtDate(x.observedAt || x.createdAt)}</td>
+        <td><span class="pill mono">${escapeHtml(x.scpId || "—")}</span></td>
+        <td>${escapeHtml(x.place || "—")}</td>
+        <td>${escapeHtml(x.state || "—")}</td>
+        <td>${escapeHtml(String(x.nuku ?? "—"))}</td>
+        <td>
+          ${escapeHtml((x.memo||"").slice(0,120))}${(x.memo||"").length>120 ? "…" : ""}
+          ${x.memo ? `<div class="muted" style="margin-top:6px;"><a href="#" onclick="showMemo('${x.id}');return false;">全文</a> / <a href="#" onclick="removeOne('${x.id}');return false;">削除</a></div>` : `<div class="muted" style="margin-top:6px;"><a href="#" onclick="removeOne('${x.id}');return false;">削除</a></div>`}
+        </td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    if(filtered.length === 0){
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td colspan="6" class="muted">ログがありません（または検索条件で0件）。</td>`;
+      tbody.appendChild(tr);
+    }
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, (c)=>({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function showMemo(id){
+    const logs = loadLogs();
+    const x = logs.find(v=>v.id===id);
+    if(!x) return;
+    alert(`【${x.scpId || "—"}】\n場所：${x.place||"—"}\n状態：${x.state||"—"}\nぬく度：${x.nuku??"—"}\n日時：${fmtDate(x.observedAt||x.createdAt)}\n\n---\n${x.memo||"(メモなし)"}\n`);
+  }
+
+  function removeOne(id){
+    const logs = loadLogs().filter(v=>v.id!==id);
+    saveLogs(logs);
+    render();
+  }
+
+  function clearAll(){
+    if(!confirm("全ログを削除します。よろしい？（戻せない）")) return;
+    saveLogs([]);
+    render();
+  }
+
+  function exportJson(){
+    const logs = loadLogs();
+    const blob = new Blob([JSON.stringify(logs, null, 2)], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "qol_scp_logs.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById("kw").addEventListener("input", render);
+  document.getElementById("filterId").addEventListener("change", render);
+  render();
+</script>
+
+</body>
+</html>

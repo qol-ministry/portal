@@ -1,30 +1,69 @@
 <!doctype html>
+
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SCP-001-NK - そこにいるペンギン</title>
+  <title>SCP-001-NK 詳細 - QOL省</title>
   <style>
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#eef2f6;color:#1b1b1b;}
-    header{background:linear-gradient(90deg,#0b3a73,#1a5aa5);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+    :root{
+      --bg:#eef2f6; --card:#fff; --line:#d8dee6; --muted:#6a7786; --ink:#1b1b1b;
+      --brand1:#0b3a73; --brand2:#1a5aa5; --head:#f8fafc; --link:#1a5aa5;
+      --warn:#b45309; --ok:#166534;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:var(--bg);color:var(--ink);}
+    header{background:linear-gradient(90deg,var(--brand1),var(--brand2));color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
     .brand{font-weight:900;letter-spacing:.04em;}
     .nav a{color:#fff;text-decoration:none;font-weight:800;margin-right:12px;opacity:.95}
     .nav a:hover{opacity:1;text-decoration:underline;}
-    .wrap{max-width:1100px;margin:0 auto;padding:18px;}
-    .card{background:#fff;border:1px solid #d8dee6;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06);overflow:hidden;margin-bottom:14px;}
-    .card h2{margin:0;font-size:16px;padding:12px 14px;border-bottom:1px solid #e6ebf1;background:#f8fafc;color:#223244;}
-    .body{padding:14px;}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-    @media (max-width: 900px){.grid{grid-template-columns:1fr;}}
-    .pill{display:inline-block;background:#f2f5f8;border:1px solid #e1e7ee;padding:4px 10px;border-radius:999px;font-size:12px;}
-    .muted{color:#6a7786;font-size:12px;}
-    .kv{display:grid;grid-template-columns:140px 1fr;gap:10px;margin:8px 0;}
-    .kv b{color:#223244;}
-    .log{border-left:4px solid #1a5aa5;padding-left:12px;margin:10px 0;}
-    textarea{width:100%;box-sizing:border-box;border:1px solid #c8d0da;border-radius:10px;padding:12px;font-size:14px;min-height:120px;outline:none;}
-    textarea:focus{border-color:#1a5aa5;box-shadow:0 0 0 3px rgba(26,90,165,.18);}
-    button{background:#1a5aa5;color:#fff;border:0;border-radius:10px;padding:10px 12px;font-weight:900;cursor:pointer;}
-    button:hover{filter:brightness(1.05);}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px;}.grid{display:grid;grid-template-columns: 1.25fr .75fr; gap:14px;}
+@media (max-width: 980px){ .grid{grid-template-columns:1fr;} }
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.06);overflow:hidden;}
+.card h2{margin:0;font-size:16px;padding:12px 14px;border-bottom:1px solid #e6ebf1;background:var(--head);color:#223244;display:flex;align-items:center;gap:10px;}
+.body{padding:14px;}
+
+.meta{width:100%;border-collapse:collapse;font-size:14px;}
+.meta th,.meta td{padding:10px;border-bottom:1px solid #e6ebf1;vertical-align:top;text-align:left;}
+.meta th{width:190px;color:var(--muted);font-size:12px;letter-spacing:.02em;}
+
+.pill{display:inline-block;background:#f2f5f8;border:1px solid #e1e7ee;padding:4px 10px;border-radius:999px;font-size:12px;}
+.pill.ok{background:#effaf0;border-color:#ccead0;color:var(--ok);} 
+.pill.warn{background:#fff7ed;border-color:#fed7aa;color:var(--warn);} 
+
+a{color:var(--link);text-decoration:none;font-weight:900;}
+a:hover{text-decoration:underline;}
+
+.mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+.muted{color:var(--muted);font-size:12px;}
+
+.section-title{margin:14px 0 8px 0;font-size:13px;color:#223244;font-weight:900;letter-spacing:.03em;}
+
+.note{border:1px dashed #c8d0da;border-radius:10px;padding:12px;background:#fbfdff;}
+
+.log{border-left:4px solid #cfe0f5;padding:10px 12px;background:#f7fbff;border-radius:10px;}
+.log + .log{margin-top:10px;}
+.log .t{font-weight:900;}
+
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.btn{appearance:none;border:1px solid #c8d0da;background:#fff;border-radius:10px;padding:10px 12px;font-weight:900;cursor:pointer;}
+.btn:hover{border-color:#1a5aa5;}
+.btn.primary{background:#1a5aa5;border-color:#1a5aa5;color:#fff;}
+.btn.primary:hover{filter:brightness(1.05)}
+
+.small{font-size:12px;}
+
+.sidebar-item{padding:12px 14px;border-bottom:1px solid #e6ebf1;}
+.sidebar-item:last-child{border-bottom:0;}
+.k{color:var(--muted);font-size:12px;font-weight:900;letter-spacing:.03em;}
+.v{margin-top:4px;font-weight:900;}
+
+.stamp{display:inline-flex;align-items:center;gap:8px;border:1px solid #d8dee6;background:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:900;}
+.dot{width:9px;height:9px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.18);} 
+
+.footer{margin-top:14px;color:var(--muted);font-size:12px;}
+
   </style>
 </head>
 <body>
@@ -32,72 +71,133 @@
   <div class="brand">QOL省 内部ポータル</div>
   <div class="nav">
     <a href="portal.html">ダッシュボード</a>
-    <a href="scp-db.html">SCPデータベース</a>
     <a href="notices.html">省内通達</a>
+    <a href="scp-db.html">SCPデータベース</a>
   </div>
-</header>
-
-<div class="wrap">
-
-  <div class="card">
-    <h2>SCP-001-NK / そこにいるペンギン <span class="pill">存在</span></h2>
-    <div class="body">
-      <div class="grid">
-        <div>
-          <div class="kv"><b>ID</b><div>SCP-001-NK</div></div>
-          <div class="kv"><b>通称</b><div>そこにいるペンギン（確定）</div></div>
-          <div class="kv"><b>状態</b><div>在席：高（たまに覗く）</div></div>
-          <div class="kv"><b>危険度</b><div>0（ぬくい）</div></div>
-          <div class="kv"><b>備考</b><div class="muted">抱きしめてもよい。暑い場合は各自で調整すること。</div></div>
-        </div>
-
-        <div>
-          <div class="log">
-            <b>概要</b><br>
-            施設内に「いつのまにか居る」ことがある。  
-            職員の作業を覗いているが、介入はしない。  
-            ときどき頭部へ落下物が発生する（原因：未確定）。
-          </div>
-          <div class="muted">※観測者が「かわいい」と感じるほど記録が雑になる傾向あり。</div>
-        </div>
-      </div>
+</header><div class="wrap">
+  <div class="toolbar" style="margin-bottom:14px;">
+    <a href="scp-db.html">← 一覧に戻る</a>
+    <span class="stamp"><span class="dot"></span>在席：高（観測継続）</span>
+    <span class="muted">更新: 2016-11-30 / 取り扱い: <span class="mono">NK-OP-001</span></span>
+  </div>  <div class="grid">
+    <div class="card">
+      <h2>SCP-001-NK　「そこにいるペンギン（仮）」</h2>
+      <div class="body">
+        <table class="meta">
+          <tr>
+            <th>番号</th>
+            <td class="mono">SCP-001-NK</td>
+          </tr>
+          <tr>
+            <th>通称</th>
+            <td>そこにいるペンギン（仮）</td>
+          </tr>
+          <tr>
+            <th>区分</th>
+            <td><span class="pill">存在</span></td>
+          </tr>
+          <tr>
+            <th>ぬく度</th>
+            <td><span class="pill ok">高</span> <span class="muted">※接近で寒さが少しほどける報告あり</span></td>
+          </tr>
+          <tr>
+            <th>対応方針</th>
+            <td><span class="pill">見守り</span> <span class="pill">放置</span> <span class="pill warn">無理に触らない</span></td>
+          </tr>
+          <tr>
+            <th>所在</th>
+            <td>ぬくりば（SCP-000-NK 影響域）内に高頻度で出現</td>
+          </tr>
+        </table><div class="section-title">概要</div>
+    <div class="note">
+      本対象は、QOL省管理下の「ぬくりば」領域において、<b>「気づくと、そこにいる」</b>形で観測されるペンギン様存在である。
+      外見は皇帝ペンギンに類似するが、体格・質感・温度のいずれも一定しない。
+      なお本対象は、観測者に対して攻撃性・威圧行動を示した記録がなく、
+      多くのケースで<b>瞬き</b>、または<b>ごく短い頭部傾き</b>のみが確認されている。
     </div>
-  </div>
 
-  <div class="card">
-    <h2>目撃ログ（抜粋）</h2>
-    <div class="body">
-      <ul>
-        <li>2026-01-31 20:20　入口付近で在席。視線だけ送ってきた。</li>
-        <li>不定期　こたつ周辺で静止。たまに首をかしげる。</li>
-        <li>不定期　頭にどんぐりが落ちる（※落下元不明）。</li>
+    <div class="section-title">取り扱いプロトコル</div>
+    <div class="log">
+      <div class="t">NK-OP-001（抜粋）</div>
+      <ul style="margin:8px 0 0 18px;">
+        <li>視認した場合、まずは <b>3秒</b> 観察してから行動すること。</li>
+        <li>急接近は避け、歩幅を小さくすること（ぬくりば床材の軋み対策）。</li>
+        <li>接触は任意。ただし<b>「抱きしめたい衝動」</b>が発生した場合は、いったん深呼吸すること。</li>
+        <li>写真・動画撮影は可。ただしフラッシュは禁止（本人…本ペン？の気分が不明）。</li>
+        <li>本対象が通路上にいる場合、<b>「先に通っていただく」</b>のが推奨。</li>
       </ul>
-      <div class="muted">※ログは雰囲気で更新されます。</div>
+      <div class="muted" style="margin-top:8px;">※上記は安全のためではなく、空気のため。</div>
     </div>
-  </div>
 
-  <div class="card">
-    <h2>観測メモ（個人）</h2>
-    <div class="body">
-      <textarea id="memo" placeholder="例）( ⊃🐧⊂ )ｷﾞｭ した / 目が合った / 何も起きなかった"></textarea>
-      <div style="display:flex; gap:10px; align-items:center; margin-top:10px; flex-wrap:wrap;">
-        <button type="button" onclick="saveMemo()">保存（ローカル）</button>
-        <span class="muted">※この保存はあなたのPC内だけです（イントラ風）</span>
+    <div class="section-title">観測ログ（抜粋）</div>
+    <div class="log">
+      <div class="t">観測ログ 2016-11-30 / 記録者：外部視察員A</div>
+      <div style="margin-top:6px;">
+        入室直後、カウンター奥に本対象が在席。こちらの存在に反応した様子はない。
+        ただし視察員Aの肩の力が抜け、発話速度が0.8倍程度になった。
+        対象は一度だけ瞬きを行い、以後、同じ場所にいた。
       </div>
     </div>
-  </div>
+    <div class="log">
+      <div class="t">観測ログ 2017-02-14 / 記録者：職員P</div>
+      <div style="margin-top:6px;">
+        目が合った気がしたので会釈。対象は会釈しない。
+        代わりに、頭の上の毛（？）が「ぴろっ」と跳ねたように見えた。
+        以後、会議室から聞こえる寝息が増え、会議が中断された。
+      </div>
+    </div>
 
+    <div class="section-title">補遺</div>
+    <div class="note">
+      <b>補遺1：</b>本対象は「職員か否か」が不明である。
+      ただし、出勤簿・入退室記録・職員番号のいずれにも該当なし。
+      にもかかわらず、誰も追い出そうとしない。
+      <div class="muted" style="margin-top:8px;">※理由：そういう空気ではないため。</div>
+    </div>
+
+    <div class="footer">
+      このページは「怖くない・危険じゃない・ぬくい」ものだけを扱います。／ QOL省 内部資料
+    </div>
+  </div>
 </div>
 
-<script>
-  const KEY = "qol_scp001_memo";
-  const memo = document.getElementById("memo");
-  memo.value = localStorage.getItem(KEY) || "";
+<div class="card">
+  <h2>クイック操作</h2>
+  <div class="sidebar-item">
+    <div class="k">関連ページ</div>
+    <div class="v"><a href="scp-000-nk.html">SCP-000-NK（ぬくりば）</a></div>
+    <div class="v" style="margin-top:6px;"><a href="scp-db.html">SCPデータベースへ</a></div>
+  </div>
+  <div class="sidebar-item">
+    <div class="k">観測ログを追加</div>
+    <div class="muted" style="margin-top:6px;">別窓フォームで追記（補遺に反映されます…たぶん）</div>
+    <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn primary" type="button" onclick="openLog()">観測ログ入力（別窓）</button>
+      <button class="btn" type="button" onclick="copyId()">IDコピー</button>
+    </div>
+  </div>
+  <div class="sidebar-item">
+    <div class="k">内部メモ</div>
+    <div class="muted" style="margin-top:6px;">※まだ通称が仮なので、安定した呼称が生まれたら更新してください。</div>
+    <div class="muted">候補：ペンギン / そこにいる / ぬっ / ぴろ</div>
+  </div>
+</div>
 
-  function saveMemo(){
-    localStorage.setItem(KEY, memo.value);
-    alert("保存しました（たぶん）");
+  </div>
+</div><script>
+  function openLog(){
+    window.open(
+      "scp-log-new.html?target=SCP-001-NK",
+      "logNewWin",
+      "width=560,height=720,left=120,top=60,resizable=yes,scrollbars=yes"
+    );
   }
-</script>
-</body>
+  function copyId(){
+    navigator.clipboard.writeText("SCP-001-NK").then(()=>{
+      alert("コピーしました：SCP-001-NK");
+    }).catch(()=>{
+      alert("コピーできませんでした（ブラウザ権限のせいかも）");
+    });
+  }
+</script></body>
 </html>

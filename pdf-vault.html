@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF保管庫 - QOL省</title>
+  <style>
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;background:#eef2f6;color:#1b1b1b;}
+    header{background:linear-gradient(90deg,#0b3a73,#1a5aa5);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+    .brand{font-weight:900;letter-spacing:.04em;}
+    .nav a{color:#fff;text-decoration:none;font-weight:800;margin-right:12px;opacity:.95}
+    .nav a:hover{opacity:1;text-decoration:underline;}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px;}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px;}
+    @media(min-width:900px){ .grid{grid-template-columns:320px 1fr;} }
+    .card{background:#fff;border:1px solid #d8dee6;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.06);overflow:hidden;}
+    .card h2{margin:0;font-size:14px;padding:12px 14px;border-bottom:1px solid #e6ebf1;background:#f8fafc;color:#223244;}
+    .body{padding:14px;}
+    label{display:block;font-size:12px;color:#6a7786;margin:10px 0 6px;}
+    input,select{
+      width:100%;box-sizing:border-box;padding:10px 10px;border:1px solid #c8d0da;border-radius:8px;font-size:14px;outline:none;
+    }
+    input:focus,select:focus{border-color:#1a5aa5;box-shadow:0 0 0 3px rgba(26,90,165,.18);}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .row > *{flex:1;min-width:140px}
+    .btn{display:inline-block;background:#1a5aa5;color:#fff;border:none;border-radius:8px;padding:10px 12px;font-weight:900;cursor:pointer}
+    .btn:hover{filter:brightness(1.05)}
+    .btn.ghost{background:#f2f5f8;color:#1a5aa5;border:1px solid #d8dee6}
+    .pill{display:inline-block;background:#f2f5f8;border:1px solid #e1e7ee;padding:4px 10px;border-radius:999px;font-size:12px;}
+    .muted{color:#6a7786;font-size:12px;}
+    table{width:100%;border-collapse:collapse;}
+    th,td{padding:10px;border-bottom:1px solid #e6ebf1;text-align:left;vertical-align:top;}
+    th{color:#6a7786;font-size:12px;white-space:nowrap;}
+    a{color:#1a5aa5;text-decoration:none;font-weight:900;}
+    a:hover{text-decoration:underline;}
+    .mini{font-size:12px;color:#6a7786}
+    .right{white-space:nowrap}
+    .tag{display:inline-block;margin:2px 6px 0 0;font-size:11px;color:#223244;background:#eef5ff;border:1px solid #cfe2ff;padding:2px 8px;border-radius:999px}
+    .hint{background:#fff7e6;border:1px solid #ffe3b0;padding:10px 12px;border-radius:10px;color:#6b4a00;font-size:12px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">QOL省 内部ポータル</div>
+  <div class="nav">
+    <a href="portal.html">ダッシュボード</a>
+    <a href="notices.html">省内通達</a>
+    <a href="scp-db.html">SCPデータベース</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- 左：フィルタ -->
+    <div class="card">
+      <h2>検索・絞り込み</h2>
+      <div class="body">
+        <label>キーワード</label>
+        <input id="q" placeholder="例）基本法 / 組織令 / 服務 / 庁舎 / 検討会" />
+
+        <div class="row">
+          <div>
+            <label>区分</label>
+            <select id="type">
+              <option value="">すべて</option>
+              <option value="法令">法令</option>
+              <option value="規程">規程</option>
+              <option value="通達">通達</option>
+              <option value="資料">資料</option>
+              <option value="議事">議事</option>
+              <option value="様式">様式</option>
+            </select>
+          </div>
+          <div>
+            <label>年度</label>
+            <select id="fy">
+              <option value="">すべて</option>
+              <option value="2024">2024</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+              <option value="2021">2021</option>
+              <option value="2020">2020</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label>並び替え</label>
+            <select id="sort">
+              <option value="desc">更新日：新しい順</option>
+              <option value="asc">更新日：古い順</option>
+              <option value="name">ファイル名順</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:end;gap:10px;">
+            <button class="btn ghost" type="button" onclick="resetFilters()">リセット</button>
+            <button class="btn" type="button" onclick="applyFilters()">適用</button>
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+        <div class="hint">
+          ※PDFは <b>別タブで開く</b> 仕様です。<br>
+          ※公開環境では機密資料を入れないこと。
+        </div>
+
+        <div style="height:12px"></div>
+        <button class="btn" type="button" onclick="alert('未実装：アップロード機能（静的サイトのため）')">
+          追加（※静的のためダミー）
+        </button>
+        <div class="muted" style="margin-top:8px;">実運用は「GitHubにPDF追加 → 一覧に追記」でOK。</div>
+      </div>
+    </div>
+
+    <!-- 右：一覧 -->
+    <div class="card">
+      <h2>PDF保管庫</h2>
+      <div class="body">
+        <div class="muted" id="count">—</div>
+
+        <table id="tbl">
+          <thead>
+            <tr>
+              <th style="width:120px;">区分</th>
+              <th>資料名</th>
+              <th style="width:90px;">年度</th>
+              <th style="width:120px;">更新日</th>
+              <th style="width:90px;">形式</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- ▼ここにPDFを追加していく（例） -->
+            <tr data-type="法令" data-fy="2024" data-updated="2026-02-01" data-name="QOL基本法（案）">
+              <td><span class="pill">法令</span></td>
+              <td>
+                <a href="docs/law/QOL-LAW-001.pdf" target="_blank" rel="noopener">生活の質の向上及び心身負荷の軽減に関する基本法</a><br>
+                <span class="mini">管理番号：QOL-LAW-001 / 取扱：庁内限り</span><br>
+                <span class="tag">条文</span><span class="tag">官庁語</span>
+              </td>
+              <td class="right">2023</td>
+              <td class="right">2023-04-01</td>
+              <td class="right">PDF</td>
+            </tr>
+
+            <tr data-type="規程" data-fy="2024" data-updated="2026-02-01" data-name="QOL省組織令（案）">
+              <td><span class="pill">規程</span></td>
+              <td>
+                <a href="#" onclick="alert('未配置：pdf/qol_org_order.pdf'); return false;">QOL省組織令（案）</a><br>
+                <span class="mini">管理番号：QOL-ORG-001 / 取扱：庁内限り</span><br>
+                <span class="tag">組織</span><span class="tag">暫定</span>
+              </td>
+              <td class="right">2024</td>
+              <td class="right">2026-02-01</td>
+              <td class="right">PDF</td>
+            </tr>
+
+            <tr data-type="規程" data-fy="2024" data-updated="2026-02-01" data-name="QOL省職員服務規程（案）">
+              <td><span class="pill">規程</span></td>
+              <td>
+                <a href="#" onclick="alert('未配置：pdf/qol_service_rules.pdf'); return false;">QOL省職員服務規程（案）</a><br>
+                <span class="mini">管理番号：QOL-HR-001 / 取扱：庁内限り</span><br>
+                <span class="tag">服務</span><span class="tag">人事</span>
+              </td>
+              <td class="right">2024</td>
+              <td class="right">2026-02-01</td>
+              <td class="right">PDF</td>
+            </tr>
+
+            <tr data-type="資料" data-fy="2021" data-updated="2021-12-10" data-name="生活負荷軽減に関する検討会 第1回 配布資料">
+              <td><span class="pill">資料</span></td>
+              <td>
+                <a href="#" onclick="alert('未配置：pdf/kento_01.pdf'); return false;">生活負荷軽減に関する検討会 第1回 配布資料</a><br>
+                <span class="mini">管理番号：KENTO-2011-01 / 取扱：庁内限り</span><br>
+                <span class="tag">検討会</span><span class="tag">2011</span>
+              </td>
+              <td class="right">2021</td>
+              <td class="right">2021-12-10</td>
+              <td class="right">PDF</td>
+            </tr>
+
+            <tr data-type="様式" data-fy="2024" data-updated="2026-02-01" data-name="SCP観測ログ（様式）">
+              <td><span class="pill">様式</span></td>
+              <td>
+                <a href="#" onclick="alert('未配置：pdf/scp_observe_form.pdf'); return false;">SCP観測ログ（様式）</a><br>
+                <span class="mini">管理番号：SCP-FORM-001 / 取扱：庁内限り</span><br>
+                <span class="tag">フォーム</span><span class="tag">SCP</span>
+              </td>
+              <td class="right">2024</td>
+              <td class="right">2026-02-01</td>
+              <td class="right">PDF</td>
+            </tr>
+            <!-- ▲ここまで -->
+          </tbody>
+        </table>
+
+        <div class="muted" style="margin-top:10px;">
+          ※「pdf/」フォルダにPDFを置いて、ここに1行足すだけで増やせます。
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const qEl = document.getElementById("q");
+  const typeEl = document.getElementById("type");
+  const fyEl = document.getElementById("fy");
+  const sortEl = document.getElementById("sort");
+  const tbody = document.querySelector("#tbl tbody");
+  const countEl = document.getElementById("count");
+
+  function getRows(){
+    return Array.from(tbody.querySelectorAll("tr"));
+  }
+
+  function applyFilters(){
+    const kw = qEl.value.trim().toLowerCase();
+    const tp = typeEl.value;
+    const fy = fyEl.value;
+
+    let rows = getRows();
+
+    // フィルタ
+    rows.forEach(tr => {
+      const text = (tr.innerText + " " + (tr.dataset.name || "")).toLowerCase();
+      const okKw = kw ? text.includes(kw) : true;
+      const okTp = tp ? (tr.dataset.type === tp) : true;
+      const okFy = fy ? (tr.dataset.fy === fy) : true;
+      tr.style.display = (okKw && okTp && okFy) ? "" : "none";
+    });
+
+    // ソート（表示行だけ並べ替え）
+    const visible = rows.filter(tr => tr.style.display !== "none");
+    const mode = sortEl.value;
+
+    visible.sort((a,b)=>{
+      if(mode === "name"){
+        return (a.dataset.name || "").localeCompare((b.dataset.name || ""), "ja");
+      }
+      const ad = a.dataset.updated || "0000-00-00";
+      const bd = b.dataset.updated || "0000-00-00";
+      if(mode === "asc") return ad.localeCompare(bd);
+      return bd.localeCompare(ad); // desc
+    });
+
+    // DOM並べ替え（visibleのみ先に、hiddenは後ろでOK）
+    const hidden = rows.filter(tr => tr.style.display === "none");
+    [...visible, ...hidden].forEach(tr => tbody.appendChild(tr));
+
+    // 件数
+    countEl.textContent = `表示：${visible.length} 件 / 全 ${rows.length} 件`;
+  }
+
+  function resetFilters(){
+    qEl.value = "";
+    typeEl.value = "";
+    fyEl.value = "";
+    sortEl.value = "desc";
+    applyFilters();
+  }
+
+  // 入力で即反映
+  [qEl, typeEl, fyEl, sortEl].forEach(el => el.addEventListener("input", applyFilters));
+  // 初期表示
+  applyFilters();
+</script>
+</body>
+</html>
